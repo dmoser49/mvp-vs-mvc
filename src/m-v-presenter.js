@@ -1,4 +1,4 @@
-(function () {
+(function() {
   // // // // // //
   // M V Presenter
   // // // // // //
@@ -7,7 +7,7 @@
   window.People = {}
 
   // Presenter constructor
-  People.Presenter = function (element) {
+  People.Presenter = function(element) {
 
     // The view itself
     var $view = $(element)
@@ -25,9 +25,19 @@
       var personId = $(e.currentTarget).attr('data-id')
       Roster.remove(personId)
     })
+    $('#addPerson').on('click', function(e) {
+      e.preventDefault();
+      console.log('click');
+      var person = {};
+      person.name = $('#name').val();
+      person.age = $('#age').val();
+      person.id = $('#id').val();
+      console.log(person.name, person)
+      Roster.add(person);
+    })
 
     // This is the function that puts the view on the page.
-    this.render = function () {
+    this.render = function() {
       $view.empty().append(
         People.view(),
         // As shown here, the Presenter is the one responsible for
@@ -42,7 +52,7 @@
     App.pubsub.on('change:roster', this.render)
   }
 
-  People.view = function () {
+  People.view = function() {
     return $('<div class="people">').append(
       $('<h3>').text("All People:"),
       // Note how there is no click handler here
@@ -51,16 +61,17 @@
   }
 
   // Helper view
-  function personView (person) {
+  function personView(person) {
     return $('<div class="person">').append(
       $('<p>').append("Name: ", person.name),
       $('<p>').append("Age: ", person.age),
-      $('<a href="#" class="remove">').text('Remove').attr('data-id', person.id)
+      $('<a href="#" class="remove">').text('Remove').attr('data-id',
+        person.id)
     )
   }
 
   // The function actually puts the view on the page.
-  People.mount = function (element) {
+  People.mount = function(element) {
     var presenter = new People.Presenter(element)
     presenter.render()
   }

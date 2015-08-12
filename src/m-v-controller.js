@@ -28,6 +28,8 @@
       Roster.map(personView)
     )
   }
+
+
   // Helper view
   function personView (person) {
     return $('<div class="person">').append(
@@ -60,5 +62,19 @@
     App.pubsub.on('change:roster', function() {
       People.render(element)
     })
+
+    $('#addPerson').on('click', function(e) {
+      e.preventDefault();
+      console.log('click');
+      var person = {};
+      person.name = $('#name').val();
+      person.age = $('#age').val();
+      person.id = $('#id').val();
+      console.log(person.name, person)
+      Roster.add(person);
+    })
+
+
+
   }
 })()
